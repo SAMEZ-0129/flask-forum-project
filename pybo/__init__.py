@@ -18,6 +18,9 @@ naming_convetion = {
 db = SQLAlchemy(metadata=MetaData(naming_convention = naming_convetion))
 migrate = Migrate()
 
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(config) # app 환경변수로 부르기 위해 지정(config.py)
@@ -44,5 +47,8 @@ def create_app():
 
     # markdown
     Markdown(app, extension=['n12br', 'fenced_code'])
+
+    # 오류페이지
+    app.register_error_handler(404, page_not_found)
 
     return app
